@@ -1,4 +1,5 @@
 import StudentActionTypes from './student.types';
+import axios from 'axios';
 
 export const fetchStudentStart = () => ({
   type: StudentActionTypes.FETCH_START,
@@ -17,6 +18,13 @@ export const fetchStudentFailure = (errorMessage: string) => ({
 export const fetchStudentStartAsync = () => {
   return (dispatch: any) => {
     // dispatch(fetchCollectionsStart());
-    // TODO
+
+    axios({ url: '', method: 'get' })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };
