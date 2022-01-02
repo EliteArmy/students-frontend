@@ -1,21 +1,32 @@
-import StudentActionTypes from './student.types';
+import { studentActionTypes } from './student.types';
+import { StudentsActions, StudentsState } from './types/types';
 
-const INITIAL_STATE = {
-  students: null,
+const INITIAL_STATE: StudentsState = {
+  students: [],
   isFetching: false,
-  errorMessage: undefined,
+  errorMessage: null,
 };
 
-const studentReducer = (state = INITIAL_STATE, action: any) => {
+const studentReducer = (state = INITIAL_STATE, action: StudentsActions) => {
   switch (action.type) {
-    case StudentActionTypes.FETCH_START:
+    case studentActionTypes.FETCH_START:
       return { ...state, isFetching: true };
 
-    case StudentActionTypes.FETCH_SUCCESS:
-      return { ...state, isFetching: false, students: action.payload };
+    case studentActionTypes.FETCH_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        students: action.payload.students,
+        error: null,
+      };
 
-    case StudentActionTypes.FETCH_FAILURE:
-      return { ...state, isFetching: false, errorMessage: action.payload };
+    case studentActionTypes.FETCH_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        students: [],
+        errorMessage: action.payload.error,
+      };
 
     default:
       return state;

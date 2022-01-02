@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchStudentStart } from '../../redux/students/student.sagas';
+import { RootState } from '../../redux/root-reducer';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -143,21 +145,36 @@ const rows = [
 ];
 
 const Table = () => {
-  // const dispatch = useDispatch();
-  // const cartItems = useSelector('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchStudentStart());
+  }, []);
+
+  const { isFetching, students, errorMessage } = useSelector(
+    (state: RootState) => state.student
+  );
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flexGrow: 1 }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-          />
+    <div>
+      {isFetching ? (
+        <div>Loading</div>
+      ) : errorMessage ? (
+        <div>Error</div>
+      ) : (
+        <div style={{ height: 400, width: '100%' }}>
+          <div style={{ display: 'flex', height: '100%' }}>
+            <div style={{ flexGrow: 1 }}>
+              <DataGrid
+                rows={students}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5]}
+                disableSelectionOnClick
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
