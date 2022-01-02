@@ -7,6 +7,7 @@ export interface StudentsState {
   errorMessage: string | null;
 }
 
+// --- Fetch Students
 export interface FetchStudentsSuccessPayload {
   students: Student[];
 }
@@ -15,7 +16,24 @@ export interface FetchStudentsFailurePayload {
   error: string;
 }
 
-// --- Get Data
+// //////////////////////////////////////////////////////////////////
+
+// --- Register Students
+export interface RegisterStudentPayload {
+  student: Student;
+}
+
+export interface RegisterStudentsSuccessPayload {
+  student: Student;
+}
+
+export interface RegisterStudentsFailurePayload {
+  error: string;
+}
+
+// //////////////////////////////////////////////////////////////////
+
+// --- Get Data ---
 export interface FetchStudentsStart {
   type: typeof studentActionTypes.FETCH_START;
 }
@@ -30,7 +48,26 @@ export type FetchStudentsFailure = {
   payload: FetchStudentsFailurePayload;
 };
 
+// --- Save Data ---
+export interface RegisterStudentsStart {
+  type: typeof studentActionTypes.REGISTER_START;
+  payload: RegisterStudentPayload;
+}
+
+export type RegisterStudentsSuccess = {
+  type: typeof studentActionTypes.REGISTER_SUCCESS;
+  payload: RegisterStudentsSuccessPayload;
+};
+
+export type RegisterStudentsFailure = {
+  type: typeof studentActionTypes.REGISTER_FAILURE;
+  payload: RegisterStudentsFailurePayload;
+};
+
 export type StudentsActions =
   | FetchStudentsStart
   | FetchStudentsSuccess
-  | FetchStudentsFailure;
+  | FetchStudentsFailure
+  | RegisterStudentsStart
+  | RegisterStudentsSuccess
+  | RegisterStudentsFailure;

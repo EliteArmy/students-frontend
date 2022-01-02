@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import SimpleModal from '../modal/simple-modal.component';
 
 const columns = [
-  { flex: 1, field: 'id', headerName: '#', width: 100 },
+  { flex: 1, field: '_id', headerName: '#', width: 100 },
   {
     flex: 1,
     field: 'fullName',
@@ -154,6 +154,11 @@ const Table = () => {
   const { isFetching, students, errorMessage } = useSelector(
     (state: RootState) => state.student
   );
+
+  const studentsMapped = students.map(student => {
+    return { id: student._id, ...student };
+  });
+
   return (
     <div>
       {isFetching ? (
@@ -165,7 +170,7 @@ const Table = () => {
           <div style={{ display: 'flex', height: '100%' }}>
             <div style={{ flexGrow: 1 }}>
               <DataGrid
-                rows={students}
+                rows={studentsMapped}
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5]}

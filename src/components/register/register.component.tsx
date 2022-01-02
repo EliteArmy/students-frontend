@@ -24,7 +24,7 @@ const Register = () => {
   });
 
   const registerStartHandler = (student: Student) =>
-    dispatch(registerStudentStart(student));
+    dispatch(registerStudentStart({ student }));
 
   const { firstName, lastName, birthDate, email, address, gender } = student;
 
@@ -36,6 +36,7 @@ const Register = () => {
     // TODO: Validations
 
     registerStartHandler({
+      _id: '',
       firstName,
       lastName,
       birthDate,
@@ -83,7 +84,7 @@ const Register = () => {
         <InputField
           fieldValue={student.birthDate}
           fieldName="birthDate"
-          fieldPlaceholder="Birth Date"
+          fieldPlaceholder=""
           fieldTextError={displayError}
           onSetFieldName={handleChange}
           fieldRequired={true}

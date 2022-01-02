@@ -9,9 +9,8 @@ import { STUDENT_URL } from '../../interfaces/url';
 import {
   fetchStudentFailure,
   fetchStudentSuccess,
-  registerFailure,
-  registerStudentStart,
-  registerSuccess,
+  registerStudentSuccess,
+  registerStudentFailure,
 } from './student.actions';
 
 import { studentActionTypes } from './student.types';
@@ -29,37 +28,34 @@ function* fetchStudentsAsync() {
   }
 }
 
-// export function* register({
-//   payload: { firstName, lastName, birthDate, email, address, gender },
-// }) {
-//   try {
-//     const { data } = yield axios.post(`${STUDENT_URL}/student`, {
-//       firstName,
-//       lastName,
-//       birthDate,
-//       email,
-//       address,
-//       gender,
-//     });
+function* registerStudentAsync(payload: Student) {
+  try {
+    const { firstName, lastName, birthDate, email, address, gender } = payload;
 
-//     yield put(registerSuccess(data));
-//   } catch (error) {
-//     yield put(registerFailure(error));
-//   }
-// }
+    const { data } = yield axios.post<Student[]>(`${STUDENT_URL}/student`, {
+      firstName,
+      lastName,
+      birthDate,
+      email,
+      address,
+      gender,
+    });
 
-// export function* onRegisterSuccess() {
-//   yield takeLatest(studentActionTypes.REGISTER_SUCCESS, );
-// }
+    yield put(registerStudentSuccess({ student: data }));
+  } catch (error: any) {
+    console.log(error);
+    yield put(registerStudentFailure({ error: error.message }));
+  }
+}
 
 export function* fetchStudentStart() {
   yield takeLatest(studentActionTypes.FETCH_START, fetchStudentsAsync);
 }
 
-// export function* onRegisterStudent() {
-//   yield takeLatest(studentActionTypes.REGISTER_START, register);
-// }
+export function* onRegisterStudent() {
+  yield takeLatest(studentActionTypes.REGISTER_START, registerStudentAsync);
+}
 
 export function* studentSaga() {
-  yield all([call(fetchStudentStart)]);
+  yield all([call(fetchStudentStart), call(onRegisterStudent)]);
 }

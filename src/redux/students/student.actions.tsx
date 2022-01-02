@@ -10,9 +10,15 @@ import {
   FetchStudentsSuccessPayload,
   FetchStudentsFailure,
   FetchStudentsFailurePayload,
+  RegisterStudentsStart,
+  RegisterStudentPayload,
+  RegisterStudentsSuccess,
+  RegisterStudentsSuccessPayload,
+  RegisterStudentsFailure,
+  RegisterStudentsFailurePayload,
 } from './types/types';
 
-// --- Fetch all students
+// ----- Fetch all students -----
 export const fetchStudentStart = (): FetchStudentsStart => ({
   type: studentActionTypes.FETCH_START,
 });
@@ -31,32 +37,24 @@ export const fetchStudentFailure = (
   payload,
 });
 
-// --- For student registration
-export const registerStudentStart = (student: Student) => ({
-  type: studentActionTypes.FETCH_START,
-  payload: student,
+// ----- For student registration -----
+export const registerStudentStart = (
+  payload: RegisterStudentPayload
+): RegisterStudentsStart => ({
+  type: studentActionTypes.REGISTER_START,
+  payload,
 });
 
-export const registerSuccess = (student: Student) => ({
+export const registerStudentSuccess = (
+  payload: RegisterStudentsSuccessPayload
+): RegisterStudentsSuccess => ({
   type: studentActionTypes.REGISTER_SUCCESS,
-  payload: { student },
+  payload,
 });
 
-export const registerFailure = (error: any) => ({
-  type: studentActionTypes.REGISTER_SUCCESS,
-  payload: error,
+export const registerStudentFailure = (
+  payload: RegisterStudentsFailurePayload
+): RegisterStudentsFailure => ({
+  type: studentActionTypes.REGISTER_FAILURE,
+  payload,
 });
-
-export const fetchStudentStartAsync = () => {
-  return (dispatch: any) => {
-    // dispatch(fetchCollectionsStart());
-
-    axios({ url: '', method: 'get' })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-};
