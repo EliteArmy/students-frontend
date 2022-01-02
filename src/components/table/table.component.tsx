@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -25,7 +27,7 @@ const columns = [
         onClick={() => {
           console.log('hey');
         }}
-        aria-label='edit student information'
+        aria-label="edit student information"
       >
         <EditIcon />
       </IconButton>
@@ -38,7 +40,7 @@ const columns = [
     editable: false,
     renderCell: () => (
       <IconButton
-        aria-label='delete student'
+        aria-label="delete student"
         onClick={() => {
           console.log('hey');
         }}
@@ -141,6 +143,8 @@ const rows = [
 ];
 
 const Table = () => {
+  // const dispatch = useDispatch();
+  // const cartItems = useSelector('');
   return (
     <div style={{ height: 400, width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>

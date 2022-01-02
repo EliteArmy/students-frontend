@@ -1,8 +1,8 @@
 export interface Student {
   firstName: string;
   lastName: string;
-  birthDate: Date;
+  birthDate: Date | null;
   email: string;
   address: string;
-  gender: string;
+  gender: boolean;
 }
