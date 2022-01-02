@@ -5,6 +5,9 @@ import { Student } from '../../interfaces/student';
 import { registerStudentStart } from '../../redux/students/student.actions';
 
 import InputField from '../form-input/input-field.component';
+import RadioButtonsGroup from '../form-radio/form-radio.component';
+import { Button } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -14,7 +17,7 @@ const Register = () => {
   const [student, setStudent] = useState({
     firstName: '',
     lastName: '',
-    birthDate: new Date(),
+    birthDate: '',
     email: '',
     address: '',
     gender: false,
@@ -51,7 +54,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <>
       <h2>Add Student</h2>
 
       <form onSubmit={handleSubmit}>
@@ -77,7 +80,7 @@ const Register = () => {
           validationText={[`Field can't be empty`]}
         ></InputField>
 
-        {/* <InputField
+        <InputField
           fieldValue={student.birthDate}
           fieldName="birthDate"
           fieldPlaceholder="Birth Date"
@@ -86,7 +89,7 @@ const Register = () => {
           fieldRequired={true}
           type="date"
           validationText={[`Field can't be empty`]}
-        ></InputField> */}
+        ></InputField>
 
         <InputField
           fieldValue={student.email}
@@ -110,18 +113,18 @@ const Register = () => {
           validationText={[`Field can't be empty`]}
         ></InputField>
 
-        {/* <InputField
-          fieldValue={student.gender}
-          fieldName="gender"
-          fieldPlaceholder="Gender"
-          fieldTextError={displayError}
-          onSetFieldName={handleChange}
-          fieldRequired={true}
-          type="boolean"
-          validationText={[`Field can't be empty`]}
-        ></InputField> */}
+        <RadioButtonsGroup></RadioButtonsGroup>
+
+        <Box sx={{ flexGrow: 1 }}>
+          <Button variant="contained" sx={{ my: 2, mr: 1 }}>
+            Cancel
+          </Button>
+          <Button variant="contained" sx={{ my: 2, mr: 1 }}>
+            Submit
+          </Button>
+        </Box>
       </form>
-    </div>
+    </>
   );
 };
 
