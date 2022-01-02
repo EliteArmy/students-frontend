@@ -1,6 +1,9 @@
 import axios from 'axios';
-import { studentActionTypes } from './student.types';
+
 import { Student } from '../../interfaces/student';
+
+import { studentActionTypes } from './student.types';
+
 import {
   FetchStudentsStart,
   FetchStudentsSuccess,

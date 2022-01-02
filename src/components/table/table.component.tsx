@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchStudentStart } from '../../redux/students/student.sagas';
+
+import { fetchStudentStart } from '../../redux/students/student.actions';
 import { RootState } from '../../redux/root-reducer';
 
+import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -149,7 +149,7 @@ const Table = () => {
 
   useEffect(() => {
     dispatch(fetchStudentStart());
-  }, []);
+  }, [dispatch]);
 
   const { isFetching, students, errorMessage } = useSelector(
     (state: RootState) => state.student
