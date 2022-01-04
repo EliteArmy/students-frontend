@@ -25,12 +25,7 @@ const columns = [
     headerName: 'Edit',
     editable: false,
     renderCell: () => (
-      <IconButton
-        onClick={() => {
-          console.log('hey');
-        }}
-        aria-label="edit student information"
-      >
+      <IconButton onClick={() => {}} aria-label="edit student information">
         <EditIcon />
       </IconButton>
     ),
@@ -41,12 +36,7 @@ const columns = [
     headerName: 'Delete',
     editable: false,
     renderCell: () => (
-      <IconButton
-        aria-label="delete student"
-        onClick={() => {
-          console.log('hey');
-        }}
-      >
+      <IconButton aria-label="delete student" onClick={() => {}}>
         <DeleteIcon />
       </IconButton>
     ),
@@ -57,90 +47,6 @@ const columns = [
     headerName: 'View Details',
     editable: false,
     renderCell: () => <SimpleModal />,
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-    firstName: 'Jon',
-    lastName: 'Snow',
-    birthDate: 35,
-    address: 'Honduras',
-    email: 'Jon@gmail.com',
-    gender: 'male',
-  },
-  {
-    id: 2,
-    firstName: 'Cersei',
-    lastName: 'Lannister',
-    birthDate: 42,
-    address: 'Honduras',
-    email: 'Cersei@gmail.com',
-    gender: 'female',
-  },
-  {
-    id: 3,
-    firstName: 'Jaime',
-    lastName: 'Lannister',
-    birthDate: 45,
-    address: 'Honduras',
-    email: 'Lannister@gmail.com',
-    gender: 'male',
-  },
-  {
-    id: 4,
-    firstName: 'Arya',
-    lastName: 'Stark',
-    birthDate: 16,
-    address: 'Honduras',
-    email: 'Arya@gmail.com',
-    gender: 'female',
-  },
-  {
-    id: 5,
-    firstName: 'Daenerys',
-    lastName: 'Targaryen',
-    birthDate: null,
-    address: 'Honduras',
-    email: 'Daenerys@gmail.com',
-    gender: 'female',
-  },
-  {
-    id: 6,
-    firstName: null,
-    lastName: 'Melisandre',
-    birthDate: 150,
-    address: 'Honduras',
-    email: 'Melisandre@gmail.com',
-    gender: 'female',
-  },
-  {
-    id: 7,
-    firstName: 'Ferrara',
-    lastName: 'Clifford',
-    birthDate: 44,
-    address: 'Honduras',
-    email: 'Ferrara@gmail.com',
-    gender: 'male',
-  },
-  {
-    id: 8,
-    firstName: 'Rossini',
-    lastName: 'Frances',
-    birthDate: 36,
-    address: 'Honduras',
-    email: 'Rossini@gmail.com',
-    gender: 'male',
-  },
-  {
-    id: 9,
-    firstName: 'Harvey',
-    lastName: 'Roxie',
-    birthDate: 65,
-    address: 'Honduras',
-    email: 'Harvey@gmail.com',
-    gender: 'femamle',
   },
 ];
 

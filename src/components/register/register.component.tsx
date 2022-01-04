@@ -15,11 +15,11 @@ const Register = () => {
   const [displayError, setDisplayError] = useState('');
 
   const [student, setStudent] = useState({
-    firstName: '',
-    lastName: '',
+    firstName: 'Ariel',
+    lastName: 'Palma',
     birthDate: '',
-    email: '',
-    address: '',
+    email: 'correo@gmail.com',
+    address: 'Tela',
     gender: false,
   });
 
@@ -32,9 +32,6 @@ const Register = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    console.log(event.target);
-    // TODO: Validations
-
     registerStartHandler({
       _id: '',
       firstName,
@@ -46,9 +43,8 @@ const Register = () => {
     });
   };
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log('name:', name, 'value:', value);
 
     // dinamic set value
     setStudent({ ...student, [name]: value });
@@ -114,13 +110,21 @@ const Register = () => {
           validationText={[`Field can't be empty`]}
         ></InputField>
 
-        <RadioButtonsGroup></RadioButtonsGroup>
+        <RadioButtonsGroup
+          options={[
+            { label: 'male', value: true },
+            { label: 'female', value: false },
+          ]}
+          radioName={'gender'}
+          radioLabel={'Gender'}
+          onSetRadio={handleChange}
+        ></RadioButtonsGroup>
 
         <Box sx={{ flexGrow: 1 }}>
           <Button variant="contained" sx={{ my: 2, mr: 1 }}>
             Cancel
           </Button>
-          <Button variant="contained" sx={{ my: 2, mr: 1 }}>
+          <Button type="submit" variant="contained" sx={{ my: 2, mr: 1 }}>
             Submit
           </Button>
         </Box>

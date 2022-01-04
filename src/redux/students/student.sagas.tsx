@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Action } from 'redux';
 
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 
@@ -14,6 +15,9 @@ import {
 } from './student.actions';
 
 import { studentActionTypes } from './student.types';
+interface TaskAction extends Action, Student {
+  type: studentActionTypes.REGISTER_START;
+}
 
 const getStudents = () => axios.get<Student[]>(`${STUDENT_URL}/student`);
 
@@ -23,12 +27,12 @@ function* fetchStudentsAsync() {
 
     yield put(fetchStudentSuccess({ students: data }));
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     yield put(fetchStudentFailure({ error: error.message }));
   }
 }
 
-function* registerStudentAsync(payload: Student) {
+function* registerStudentAsync(payload: TaskAction) {
   try {
     const { firstName, lastName, birthDate, email, address, gender } = payload;
 
@@ -43,7 +47,7 @@ function* registerStudentAsync(payload: Student) {
 
     yield put(registerStudentSuccess({ student: data }));
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     yield put(registerStudentFailure({ error: error.message }));
   }
 }
