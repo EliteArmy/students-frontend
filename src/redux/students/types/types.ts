@@ -7,6 +7,8 @@ export interface StudentsState {
   errorMessage: string | null;
 }
 
+// //////////////////////////////////////////////////////////////////
+
 // --- Fetch Students
 export interface FetchStudentsSuccessPayload {
   students: Student[];
@@ -15,8 +17,6 @@ export interface FetchStudentsSuccessPayload {
 export interface FetchStudentsFailurePayload {
   error: string;
 }
-
-// //////////////////////////////////////////////////////////////////
 
 // --- Register Students
 export interface RegisterStudentPayload {
@@ -28,6 +28,28 @@ export interface RegisterStudentsSuccessPayload {
 }
 
 export interface RegisterStudentsFailurePayload {
+  error: string;
+}
+
+// --- Delete Students
+export interface DeleteStudentPayload {
+  id: string;
+}
+export interface DeleteStudentSuccessPayload {
+  student: Student;
+}
+export interface DeleteStudentFailurePayload {
+  error: string;
+}
+
+// --- Update Student
+export interface UpdateStudentPayload {
+  student: Student;
+}
+export interface UpdateStudentSuccessPayload {
+  student: Student;
+}
+export interface UpdateStudentFailurePayload {
   error: string;
 }
 
@@ -64,10 +86,50 @@ export type RegisterStudentsFailure = {
   payload: RegisterStudentsFailurePayload;
 };
 
+// --- Delete Data ---
+export interface DeleteStudentStart {
+  type: typeof studentActionTypes.DELETE_START;
+  payload: DeleteStudentPayload;
+}
+
+export type DeleteStudentSuccess = {
+  type: typeof studentActionTypes.DELETE_SUCCESS;
+  payload: DeleteStudentSuccessPayload;
+};
+
+export type DeleteStudentsFailure = {
+  type: typeof studentActionTypes.DELETE_FAILURE;
+  payload: DeleteStudentFailurePayload;
+};
+
+// --- Update Data ---
+export interface UpdateStudentStart {
+  type: typeof studentActionTypes.UPDATE_START;
+  payload: UpdateStudentPayload;
+}
+
+export type UpdateStudentSuccess = {
+  type: typeof studentActionTypes.UPDATE_SUCCESS;
+  payload: UpdateStudentSuccessPayload;
+};
+
+export type UpdateStudentsFailure = {
+  type: typeof studentActionTypes.UPDATE_FAILURE;
+  payload: UpdateStudentFailurePayload;
+};
+
+// //////////////////////////////////////////////////////////////////
+
 export type StudentsActions =
   | FetchStudentsStart
   | FetchStudentsSuccess
   | FetchStudentsFailure
   | RegisterStudentsStart
   | RegisterStudentsSuccess
-  | RegisterStudentsFailure;
+  | RegisterStudentsFailure
+  | DeleteStudentStart
+  | DeleteStudentSuccess
+  | DeleteStudentsFailure
+  | UpdateStudentStart
+  | UpdateStudentSuccess
+  | UpdateStudentsFailure;

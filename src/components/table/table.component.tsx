@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../../redux/root-reducer';
-import { fetchStudentStart } from '../../redux/students/student.actions';
+
+import {
+  deleteStudentStart,
+  fetchStudentStart,
+} from '../../redux/students/student.actions';
 
 import { Student } from '../../interfaces/student';
 
@@ -15,10 +19,9 @@ import Button from '@mui/material/Button';
 import SimpleModal from '../modal/simple-modal.component';
 
 const Table = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchStudentStart());
@@ -29,9 +32,14 @@ const Table = () => {
   }, [selectedStudent]);
 
   // Controls the Modal:
-  const handleClickOpen = (id: string) => () => {
-    console.log('open modal:', id);
+  const handleClose = (student: Student) => {
+    setOpen(false);
+    if (student) {
+      setSelectedStudent(student);
+    }
+  };
 
+  const handleClickOpen = (id: string) => () => {
     const foundStudent = students.find(student => {
       if (student._id) {
         return student._id === id;
@@ -42,19 +50,10 @@ const Table = () => {
     }
   };
 
-  const handleClickEdit = (id: string) => () => {
-    console.log('EDIT:', id); // action
-  };
+  const handleClickEdit = (id: string) => () => {};
 
   const handleClickDelete = (id: string) => () => {
-    console.log('DELETE:', id); // action
-  };
-
-  const handleClose = (student: Student) => {
-    setOpen(false);
-    if (student) {
-      setSelectedStudent(student);
-    }
+    dispatch(deleteStudentStart({ id }));
   };
 
   const columns = [
