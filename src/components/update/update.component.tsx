@@ -1,39 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { Box } from '@mui/material';
+import { Button } from '@mui/material';
 
 import { Student } from '../../interfaces/student';
-import { registerStudentStart } from '../../redux/students/student.actions';
+
+import { updateStudentStart } from '../../redux/students/student.actions';
+import { selectOneStudent } from '../../redux/students/student.selectors';
 
 import InputField from '../form-input/input-field.component';
 import RadioButtonsGroup from '../form-radio/form-radio.component';
-import { Button } from '@mui/material';
-import Box from '@mui/material/Box';
 
-const Register = () => {
+const Update = () => {
   const dispatch = useDispatch();
+  const { studentId = '' } = useParams();
 
   const [displayError, setDisplayError] = useState('');
 
   const [student, setStudent] = useState({
-    firstName: 'Ariel',
-    lastName: 'Palma',
+    _id: '',
+    firstName: '',
+    lastName: '',
     birthDate: '',
-    email: 'correo@gmail.com',
-    address: 'Tela',
-    gender: false,
+    email: '',
+    address: '',
+    gender: true,
   });
 
-  const registerStartHandler = (student: Student) =>
-    dispatch(registerStudentStart({ student }));
+  const updateStudent = useSelector(selectOneStudent(studentId));
 
-  const { firstName, lastName, birthDate, email, address, gender } = student;
+  useEffect(() => {
+    getStudentWithId();
+  }, []);
+
+  const getStudentWithId = () => {
+    if (!updateStudent) {
+      return;
+    }
+    const { _id, firstName, lastName, birthDate, email, address, gender } =
+      updateStudent;
+
+    setStudent({
+      _id,
+      firstName,
+      lastName,
+      birthDate: birthDate.substring(0, 10),
+      email,
+      address,
+      gender,
+    });
+  };
+
+  const updateStartHandler = (student: Student) =>
+    dispatch(updateStudentStart({ student }));
 
   // Send values:
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    registerStartHandler({
-      _id: '',
+    const { firstName, lastName, birthDate, email, address, gender } = student;
+
+    updateStartHandler({
+      _id: studentId,
       firstName,
       lastName,
       birthDate,
@@ -54,6 +86,7 @@ const Register = () => {
 
   const clearInputs = () => {
     setStudent({
+      _id: '',
       firstName: '',
       lastName: '',
       birthDate: '',
@@ -143,7 +176,7 @@ const Register = () => {
           </Button>
 
           <Button type="submit" variant="contained" sx={{ my: 2, mr: 1 }}>
-            Submit
+            Update
           </Button>
         </Box>
       </form>
@@ -151,4 +184,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Update;
