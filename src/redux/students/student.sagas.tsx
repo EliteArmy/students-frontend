@@ -73,12 +73,16 @@ function* deleteStudentAsync(action: {
 }
 
 function* updatetStudentAsync(action: {
-  payload: { id: Student };
+  payload: { student: Student };
   type: string;
 }) {
   try {
+    const { _id, firstName, lastName, birthDate, email, address, gender } =
+      action.payload.student;
+
     const { data } = yield axios.patch<Student>(
-      `${STUDENT_URL}/student/${action.payload.id}`
+      `${STUDENT_URL}/student/${_id}`,
+      { firstName, lastName, birthDate, email, address, gender }
     );
 
     yield put(updateStudentSuccess({ student: data }));

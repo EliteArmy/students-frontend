@@ -1,5 +1,6 @@
 import { studentActionTypes } from './student.types';
 import { StudentsActions, StudentsState } from './types/types';
+import { removeStudent } from './students.utils';
 
 const INITIAL_STATE: StudentsState = {
   students: [],
@@ -17,7 +18,7 @@ const studentReducer = (state = INITIAL_STATE, action: StudentsActions) => {
         ...state,
         isFetching: false,
         students: action.payload.students,
-        error: null,
+        errorMessage: null,
       };
 
     case studentActionTypes.FETCH_FAILURE:
@@ -26,6 +27,12 @@ const studentReducer = (state = INITIAL_STATE, action: StudentsActions) => {
         isFetching: false,
         students: [],
         errorMessage: action.payload.error,
+      };
+
+    case studentActionTypes.DELETE_SUCCESS:
+      return {
+        ...state,
+        students: removeStudent(state.students, action.payload.student),
       };
 
     default:

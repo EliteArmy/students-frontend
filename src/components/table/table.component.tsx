@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { RootState } from '../../redux/root-reducer';
 
@@ -20,6 +21,7 @@ import SimpleModal from '../modal/simple-modal.component';
 
 const Table = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
@@ -40,9 +42,9 @@ const Table = () => {
   };
 
   const handleClickOpen = (id: string) => () => {
-    const foundStudent = students.find(student => {
-      if (student._id) {
-        return student._id === id;
+    const foundStudent = students.find(students => {
+      if (students._id) {
+        return students._id === id;
       } else return false;
     });
     if (foundStudent) {
@@ -50,11 +52,21 @@ const Table = () => {
     }
   };
 
-  const handleClickEdit = (id: string) => () => {};
+  const handleClickEdit = (id: string) => () => {
+    navigate(`/edit/${id}`);
+  };
 
   const handleClickDelete = (id: string) => () => {
     dispatch(deleteStudentStart({ id }));
   };
+
+  const { isFetching, students, errorMessage } = useSelector(
+    (state: RootState) => state.students
+  );
+
+  const studentsMapped = students.map(student => {
+    return { id: student._id, ...student };
+  });
 
   const columns = [
     { flex: 1, field: '_id', headerName: '#', width: 100 },
@@ -105,14 +117,6 @@ const Table = () => {
       ),
     },
   ];
-
-  const { isFetching, students, errorMessage } = useSelector(
-    (state: RootState) => state.student
-  );
-
-  const studentsMapped = students.map(student => {
-    return { id: student._id, ...student };
-  });
 
   return (
     <div>
