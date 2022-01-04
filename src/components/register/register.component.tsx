@@ -15,11 +15,11 @@ const Register = () => {
   const [displayError, setDisplayError] = useState('');
 
   const [student, setStudent] = useState({
-    firstName: 'Ariel',
-    lastName: 'Palma',
+    firstName: '',
+    lastName: '',
     birthDate: '',
-    email: 'correo@gmail.com',
-    address: 'Tela',
+    email: '',
+    address: '',
     gender: false,
   });
 
