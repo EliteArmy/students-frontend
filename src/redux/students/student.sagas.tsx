@@ -57,12 +57,12 @@ function* registerStudentAsync(action: {
 }
 
 function* deleteStudentAsync(action: {
-  payload: { _id: string };
+  payload: { id: string };
   type: string;
 }) {
   try {
     const { data } = yield axios.delete<Student>(
-      `${STUDENT_URL}/student/${action.payload._id}`
+      `${STUDENT_URL}/student/${action.payload.id}`
     );
 
     yield put(deleteStudentSuccess({ student: data }));
@@ -73,12 +73,12 @@ function* deleteStudentAsync(action: {
 }
 
 function* updatetStudentAsync(action: {
-  payload: { _id: Student };
+  payload: { id: Student };
   type: string;
 }) {
   try {
     const { data } = yield axios.patch<Student>(
-      `${STUDENT_URL}/student/${action.payload._id}`
+      `${STUDENT_URL}/student/${action.payload.id}`
     );
 
     yield put(updateStudentSuccess({ student: data }));
