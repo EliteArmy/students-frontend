@@ -6,6 +6,8 @@ import { Student } from '../../interfaces/student';
 
 import { STUDENT_URL } from '../../interfaces/url';
 
+import { studentActionTypes } from './student.types';
+
 import {
   fetchStudentFailure,
   fetchStudentSuccess,
@@ -17,13 +19,9 @@ import {
   deleteStudentFailure,
 } from './student.actions';
 
-import { studentActionTypes } from './student.types';
-
-const getStudents = () => axios.get<Student[]>(`${STUDENT_URL}/student`);
-
 function* fetchStudentsAsync() {
   try {
-    const { data } = yield call(getStudents);
+    const { data } = yield axios.get<Student[]>(`${STUDENT_URL}/student`);
 
     yield put(fetchStudentSuccess({ students: data }));
   } catch (error: any) {
@@ -56,22 +54,6 @@ function* registerStudentAsync(action: {
   }
 }
 
-function* deleteStudentAsync(action: {
-  payload: { id: string };
-  type: string;
-}) {
-  try {
-    const { data } = yield axios.delete<Student>(
-      `${STUDENT_URL}/student/${action.payload.id}`
-    );
-
-    yield put(deleteStudentSuccess({ student: data }));
-  } catch (error: any) {
-    // console.log(error);
-    yield put(deleteStudentFailure({ error: error.message }));
-  }
-}
-
 function* updatetStudentAsync(action: {
   payload: { student: Student };
   type: string;
@@ -92,6 +74,23 @@ function* updatetStudentAsync(action: {
   }
 }
 
+function* deleteStudentAsync(action: {
+  payload: { id: string };
+  type: string;
+}) {
+  try {
+    const { data } = yield axios.delete<Student>(
+      `${STUDENT_URL}/student/${action.payload.id}`
+    );
+
+    yield put(deleteStudentSuccess({ student: data }));
+  } catch (error: any) {
+    // console.log(error);
+    yield put(deleteStudentFailure({ error: error.message }));
+  }
+}
+
+// //////////////////////////////////////////////////////////////////
 export function* fetchStudentStart() {
   yield takeLatest(studentActionTypes.FETCH_START, fetchStudentsAsync);
 }

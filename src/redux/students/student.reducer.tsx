@@ -1,6 +1,11 @@
 import { studentActionTypes } from './student.types';
 import { StudentsActions, StudentsState } from './types/types';
-import { removeStudent } from './students.utils';
+
+import {
+  removeStudent,
+  updateStudent,
+  registerStudent,
+} from './students.utils';
 
 const INITIAL_STATE: StudentsState = {
   students: [],
@@ -33,6 +38,18 @@ const studentReducer = (state = INITIAL_STATE, action: StudentsActions) => {
       return {
         ...state,
         students: removeStudent(state.students, action.payload.student),
+      };
+
+    case studentActionTypes.UPDATE_SUCCESS:
+      return {
+        ...state,
+        students: updateStudent(state.students, action.payload.student),
+      };
+
+    case studentActionTypes.REGISTER_SUCCESS:
+      return {
+        ...state,
+        students: registerStudent(state.students, action.payload.student),
       };
 
     default:

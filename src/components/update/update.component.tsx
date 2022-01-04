@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 import { Button } from '@mui/material';
@@ -18,6 +19,7 @@ import RadioButtonsGroup from '../form-radio/form-radio.component';
 const Update = () => {
   const dispatch = useDispatch();
   const { studentId = '' } = useParams();
+  const navigate = useNavigate();
 
   const [displayError, setDisplayError] = useState('');
 
@@ -75,6 +77,7 @@ const Update = () => {
     });
 
     clearInputs();
+    navigate('/');
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

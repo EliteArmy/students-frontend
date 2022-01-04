@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Student } from '../../interfaces/student';
 import { registerStudentStart } from '../../redux/students/student.actions';
@@ -7,10 +9,11 @@ import { registerStudentStart } from '../../redux/students/student.actions';
 import InputField from '../form-input/input-field.component';
 import RadioButtonsGroup from '../form-radio/form-radio.component';
 import { Button } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [displayError, setDisplayError] = useState('');
 
@@ -61,6 +64,7 @@ const Register = () => {
       address: '',
       gender: true,
     });
+    navigate('/');
   };
 
   return (

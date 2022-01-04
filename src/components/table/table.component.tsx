@@ -33,12 +33,13 @@ const Table = () => {
     setOpen(true);
   }, [selectedStudent]);
 
+  const { isFetching, students, errorMessage } = useSelector(
+    (state: RootState) => state.students
+  );
+
   // Controls the Modal:
-  const handleClose = (student: Student) => {
+  const handleClose = () => {
     setOpen(false);
-    if (student) {
-      setSelectedStudent(student);
-    }
   };
 
   const handleClickOpen = (id: string) => () => {
@@ -59,10 +60,6 @@ const Table = () => {
   const handleClickDelete = (id: string) => () => {
     dispatch(deleteStudentStart({ id }));
   };
-
-  const { isFetching, students, errorMessage } = useSelector(
-    (state: RootState) => state.students
-  );
 
   const studentsMapped = students.map(student => {
     return { id: student._id, ...student };
