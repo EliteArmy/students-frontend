@@ -46,9 +46,7 @@ const Table = () => {
     console.log('EDIT:', id); // action
   };
 
-  const handleClickDelete = (id: string) => () => {
-    console.log('DELETE:', id); // action
-  };
+  const handleClickDelete = (id: string) => () => {};
 
   const handleClose = (student: Student) => {
     setOpen(false);

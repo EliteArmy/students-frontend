@@ -11,6 +11,10 @@ import {
   fetchStudentSuccess,
   registerStudentSuccess,
   registerStudentFailure,
+  updateStudentSuccess,
+  updateStudentFailure,
+  deleteStudentSuccess,
+  deleteStudentFailure,
 } from './student.actions';
 
 import { studentActionTypes } from './student.types';
@@ -52,6 +56,38 @@ function* registerStudentAsync(action: {
   }
 }
 
+function* deleteStudentAsync(action: {
+  payload: { _id: string };
+  type: string;
+}) {
+  try {
+    const { data } = yield axios.delete<Student>(
+      `${STUDENT_URL}/student/${action.payload._id}`
+    );
+
+    yield put(deleteStudentSuccess({ student: data }));
+  } catch (error: any) {
+    // console.log(error);
+    yield put(deleteStudentFailure({ error: error.message }));
+  }
+}
+
+function* updatetStudentAsync(action: {
+  payload: { _id: Student };
+  type: string;
+}) {
+  try {
+    const { data } = yield axios.patch<Student>(
+      `${STUDENT_URL}/student/${action.payload._id}`
+    );
+
+    yield put(updateStudentSuccess({ student: data }));
+  } catch (error: any) {
+    // console.log(error);
+    yield put(updateStudentFailure({ error: error.message }));
+  }
+}
+
 export function* fetchStudentStart() {
   yield takeLatest(studentActionTypes.FETCH_START, fetchStudentsAsync);
 }
@@ -60,6 +96,19 @@ export function* onRegisterStudent() {
   yield takeLatest(studentActionTypes.REGISTER_START, registerStudentAsync);
 }
 
+export function* onUpdateStudent() {
+  yield takeLatest(studentActionTypes.UPDATE_START, updatetStudentAsync);
+}
+
+export function* onDeleteStudent() {
+  yield takeLatest(studentActionTypes.DELETE_START, deleteStudentAsync);
+}
+
 export function* studentSaga() {
-  yield all([call(fetchStudentStart), call(onRegisterStudent)]);
+  yield all([
+    call(fetchStudentStart),
+    call(onRegisterStudent),
+    call(onUpdateStudent),
+    call(onDeleteStudent),
+  ]);
 }
