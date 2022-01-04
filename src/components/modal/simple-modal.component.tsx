@@ -10,8 +10,14 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
-import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
+import Typography from '@mui/material/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import EmailIcon from '@mui/icons-material/Email';
+import HomeIcon from '@mui/icons-material/Home';
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -43,14 +49,33 @@ function SimpleModal(props: SimpleDialogProps) {
               <PersonIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText
-            primary={`${firstName}
-          ${lastName} 
-          ${birthDate}
-          ${email}
-          ${address}
-          ${gender}`}
-          />
+          <ListItemText primary={`${firstName} ${lastName}`} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <DateRangeIcon />
+          </ListItemIcon>
+          <ListItemText primary={birthDate} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary={address} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <EmailIcon />
+          </ListItemIcon>
+          <ListItemText primary={email} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>{gender ? <MaleIcon /> : <FemaleIcon />}</ListItemIcon>
+          <ListItemText primary={gender ? 'Male' : 'Female'} />
         </ListItem>
       </List>
     </Dialog>
