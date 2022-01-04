@@ -1,7 +1,3 @@
-import axios from 'axios';
-
-import { Student } from '../../interfaces/student';
-
 import { studentActionTypes } from './student.types';
 
 import {
