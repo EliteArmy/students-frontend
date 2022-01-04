@@ -23,16 +23,20 @@ function* fetchStudentsAsync() {
 
     yield put(fetchStudentSuccess({ students: data }));
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     yield put(fetchStudentFailure({ error: error.message }));
   }
 }
 
-function* registerStudentAsync(payload: Student) {
+function* registerStudentAsync(action: {
+  payload: { student: Student };
+  type: string;
+}) {
   try {
-    const { firstName, lastName, birthDate, email, address, gender } = payload;
+    const { firstName, lastName, birthDate, email, address, gender } =
+      action.payload.student;
 
-    const { data } = yield axios.post<Student[]>(`${STUDENT_URL}/student`, {
+    const { data } = yield axios.post<Student>(`${STUDENT_URL}/student`, {
       firstName,
       lastName,
       birthDate,
@@ -43,7 +47,7 @@ function* registerStudentAsync(payload: Student) {
 
     yield put(registerStudentSuccess({ student: data }));
   } catch (error: any) {
-    console.log(error);
+    // console.log(error);
     yield put(registerStudentFailure({ error: error.message }));
   }
 }

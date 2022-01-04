@@ -16,8 +16,8 @@ interface FormProps {
   fieldRequired: boolean;
   fieldTextError: string;
   type: string;
-  onSetFieldName: Function;
   validationText: string[];
+  onSetFieldName: Function;
 }
 
 const InputField = (props: FormProps) => {
@@ -40,7 +40,7 @@ const InputField = (props: FormProps) => {
     if (validationText) {
       return (
         <List dense={true}>
-          {(validationText || []).map((text) => (
+          {(validationText || []).map(text => (
             <ListItem key={text} disableGutters>
               <ListItemText secondary={text} />
             </ListItem>
@@ -53,8 +53,8 @@ const InputField = (props: FormProps) => {
   return (
     <FormControl
       fullWidth
-      variant='outlined'
-      margin='normal'
+      variant="outlined"
+      margin="normal"
       error={fieldTextError ? true : false}
       required={fieldRequired}
     >
