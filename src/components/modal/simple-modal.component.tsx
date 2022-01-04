@@ -1,5 +1,7 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+
+import { Student } from '../../interfaces/student';
+
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -8,53 +10,76 @@ import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
+import Typography from '@mui/material/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import EmailIcon from '@mui/icons-material/Email';
+import HomeIcon from '@mui/icons-material/Home';
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 
 export interface SimpleDialogProps {
   open: boolean;
-  onClose: (value: string) => void;
+  selectedStudent: Student;
+  label: string;
+  onClose: (value: Student) => void;
 }
 
-function SimpleDialog(props: SimpleDialogProps) {
-  const { onClose, open } = props;
+function SimpleModal(props: SimpleDialogProps) {
+  const { onClose, selectedStudent, open, label } = props;
+  const { firstName, lastName, birthDate, email, address, gender } =
+    selectedStudent;
 
   const handleClose = () => {
-    onClose('');
+    onClose(selectedStudent);
   };
 
-  const handleListItemClick = (value: string) => {
+  const handleListItemClick = (value: Student) => {
     onClose(value);
   };
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Student Details</DialogTitle>
-      <List sx={{ pt: 0 }}></List>
+      <DialogTitle>{label}</DialogTitle>
+      <List sx={{ pt: 0 }}>
+        <ListItem button onClick={() => handleListItemClick(selectedStudent)}>
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+              <PersonIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={`${firstName} ${lastName}`} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <DateRangeIcon />
+          </ListItemIcon>
+          <ListItemText primary={birthDate} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary={address} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <EmailIcon />
+          </ListItemIcon>
+          <ListItemText primary={email} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>{gender ? <MaleIcon /> : <FemaleIcon />}</ListItemIcon>
+          <ListItemText primary={gender ? 'Male' : 'Female'} />
+        </ListItem>
+      </List>
     </Dialog>
   );
 }
-
-const SimpleModal = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value: string) => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button variant='outlined' onClick={handleClickOpen}>
-        View Details
-      </Button>
-      <SimpleDialog open={open} onClose={handleClose} />
-    </div>
-  );
-};
 
 export default SimpleModal;

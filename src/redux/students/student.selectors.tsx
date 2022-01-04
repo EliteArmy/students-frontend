@@ -1,8 +1,14 @@
 import { createSelector } from 'reselect';
+import { Student } from '../../interfaces/student';
 
-const selectStudent = (state: { student: any }) => state.student;
+const selectStudents = (state: { students: Student[] }) => state.students;
 
-export const selectStudents = createSelector(
-  [selectStudent],
+export const selectAllStudents = createSelector(
+  [selectStudents],
   student => student
 );
+
+export const selectOneStudent = (_id: string) =>
+  createSelector([selectStudents], students =>
+    students.find(student => _id === student._id)
+  );
