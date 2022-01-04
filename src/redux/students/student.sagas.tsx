@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Action } from 'redux';
 
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 
@@ -15,9 +14,6 @@ import {
 } from './student.actions';
 
 import { studentActionTypes } from './student.types';
-interface TaskAction extends Action, Student {
-  type: studentActionTypes.REGISTER_START;
-}
 
 const getStudents = () => axios.get<Student[]>(`${STUDENT_URL}/student`);
 
@@ -32,11 +28,15 @@ function* fetchStudentsAsync() {
   }
 }
 
-function* registerStudentAsync(payload: TaskAction) {
+function* registerStudentAsync(action: {
+  payload: { student: Student };
+  type: string;
+}) {
   try {
-    const { firstName, lastName, birthDate, email, address, gender } = payload;
+    const { firstName, lastName, birthDate, email, address, gender } =
+      action.payload.student;
 
-    const { data } = yield axios.post<Student[]>(`${STUDENT_URL}/student`, {
+    const { data } = yield axios.post<Student>(`${STUDENT_URL}/student`, {
       firstName,
       lastName,
       birthDate,
