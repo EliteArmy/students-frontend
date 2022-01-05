@@ -30,6 +30,7 @@ function SimpleModal(props: SimpleDialogProps) {
 
   const { firstName, lastName, birthDate, email, address, gender } =
     selectedStudent;
+  const formatDate = birthDate.substring(0, 10);
 
   const handleClose = () => {
     onClose();
@@ -52,7 +53,7 @@ function SimpleModal(props: SimpleDialogProps) {
           <ListItemIcon>
             <DateRangeIcon />
           </ListItemIcon>
-          <ListItemText primary={birthDate} />
+          <ListItemText primary={formatDate} />
         </ListItem>
 
         <ListItem>

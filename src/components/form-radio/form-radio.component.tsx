@@ -9,10 +9,12 @@ interface RadioProps {
   radioLabel: string;
   radioName: string;
   onSetRadio: Function;
+  defValue: boolean;
 }
 
 const RadioButtonsGroup = (props: RadioProps) => {
-  const { options, radioLabel, radioName, onSetRadio } = props;
+  const { options, radioLabel, radioName, defValue, onSetRadio } = props;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSetRadio(event);
   };
@@ -23,9 +25,9 @@ const RadioButtonsGroup = (props: RadioProps) => {
       <RadioGroup
         row
         aria-label={radioName}
-        defaultValue={options[0]?.value}
         name={radioName}
         onChange={handleChange}
+        value={defValue}
       >
         {options.map(option => (
           <FormControlLabel

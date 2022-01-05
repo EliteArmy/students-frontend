@@ -1,11 +1,10 @@
-import React from 'react';
 import Grid from '@mui/material/Grid';
 import { Outlet } from 'react-router-dom';
 
 const HomePage = () => {
   return (
-    <Grid container alignItems='center' justifyContent='center'>
-      <Grid item xs={12} sm={10}>
+    <Grid container alignItems="center" justifyContent="center">
+      <Grid item xs={10} sm={10}>
         <Outlet />
       </Grid>
     </Grid>
