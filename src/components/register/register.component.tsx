@@ -3,19 +3,45 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  MIN_FIRST_NAME_LENGTH,
+  MAX_FIRST_NAME_LENGTH,
+  MIN_LAST_NAME_LENGTH,
+  MAX_LAST_NAME_LENGTH,
+  MIN_ADDRESS_LENGTH,
+  MAX_ADDRESS_LENGTH,
+} from '../../utilities/config';
+
+import {
+  firstNameValidations,
+  lastNameValidations,
+  emailValidations,
+  addressValidations,
+  birthDateValidations,
+} from '../../utilities/validations';
+
+import { Button } from '@mui/material';
+import { Box } from '@mui/material';
+
 import { Student } from '../../interfaces/student';
+
 import { registerStudentStart } from '../../redux/students/student.actions';
 
 import InputField from '../form-input/input-field.component';
 import RadioButtonsGroup from '../form-radio/form-radio.component';
-import { Button } from '@mui/material';
-import { Box } from '@mui/material';
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [displayError, setDisplayError] = useState('');
+  const [displayError, setDisplayError] = useState({
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    email: '',
+    address: '',
+    gender: '',
+  });
 
   const [student, setStudent] = useState({
     firstName: '',
@@ -26,33 +52,59 @@ const Register = () => {
     gender: false,
   });
 
+  const { firstName, lastName, birthDate, email, address, gender } = student;
+
   const registerStartHandler = (student: Student) =>
     dispatch(registerStudentStart({ student }));
 
-  const { firstName, lastName, birthDate, email, address, gender } = student;
-
   // Send values:
   const handleSubmit = async (event: any) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
+      resetStatus();
+      validations();
 
-    registerStartHandler({
-      _id: '',
-      firstName,
-      lastName,
-      birthDate,
-      email,
-      address,
-      gender,
-    });
+      registerStartHandler({
+        _id: '',
+        firstName,
+        lastName,
+        birthDate,
+        email,
+        address,
+        gender,
+      });
 
-    clearInputs();
+      clearInputs();
+      navigate('/');
+    } catch (error: any) {
+      setDisplayError({ ...displayError, [error.name]: error.message });
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    resetStatus();
     const { name, value } = event.target;
 
-    // dinamic set value
     setStudent({ ...student, [name]: value });
+  };
+
+  const validations = () => {
+    firstNameValidations(student.firstName);
+    lastNameValidations(student.lastName);
+    emailValidations(student.email);
+    addressValidations(student.address);
+    birthDateValidations(student.birthDate);
+  };
+
+  const resetStatus = () => {
+    setDisplayError({
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      email: '',
+      address: '',
+      gender: '',
+    });
   };
 
   const clearInputs = () => {
@@ -64,7 +116,6 @@ const Register = () => {
       address: '',
       gender: true,
     });
-    navigate('/');
   };
 
   return (
@@ -76,31 +127,35 @@ const Register = () => {
           fieldValue={student.firstName}
           fieldName="firstName"
           fieldPlaceholder="First Name"
-          fieldTextError={displayError}
+          fieldTextError={displayError.firstName}
           onSetFieldName={handleChange}
-          fieldRequired={true}
+          fieldRequired={false}
           type="text"
-          validationText={[`Field can't be empty`]}
+          validationText={[
+            `First name should be between ${MIN_FIRST_NAME_LENGTH} to ${MAX_FIRST_NAME_LENGTH} letters`,
+          ]}
         ></InputField>
 
         <InputField
           fieldValue={student.lastName}
           fieldName="lastName"
           fieldPlaceholder="Last Name"
-          fieldTextError={displayError}
+          fieldTextError={displayError.lastName}
           onSetFieldName={handleChange}
-          fieldRequired={true}
+          fieldRequired={false}
           type="text"
-          validationText={[`Field can't be empty`]}
+          validationText={[
+            `Last name should be between ${MIN_LAST_NAME_LENGTH} to ${MAX_LAST_NAME_LENGTH} letters`,
+          ]}
         ></InputField>
 
         <InputField
           fieldValue={student.birthDate}
           fieldName="birthDate"
           fieldPlaceholder=""
-          fieldTextError={displayError}
+          fieldTextError={displayError.birthDate}
           onSetFieldName={handleChange}
-          fieldRequired={true}
+          fieldRequired={false}
           type="date"
           validationText={[`Field can't be empty`]}
         ></InputField>
@@ -109,22 +164,24 @@ const Register = () => {
           fieldValue={student.email}
           fieldName="email"
           fieldPlaceholder="Email"
-          fieldTextError={displayError}
+          fieldTextError={displayError.email}
           onSetFieldName={handleChange}
-          fieldRequired={true}
+          fieldRequired={false}
           type="text"
-          validationText={[`Field can't be empty`]}
+          validationText={[`Email can't be empty`]}
         ></InputField>
 
         <InputField
           fieldValue={student.address}
           fieldName="address"
           fieldPlaceholder="Address"
-          fieldTextError={displayError}
+          fieldTextError={displayError.address}
           onSetFieldName={handleChange}
-          fieldRequired={true}
+          fieldRequired={false}
           type="text"
-          validationText={[`Field can't be empty`]}
+          validationText={[
+            `Address should be between ${MIN_ADDRESS_LENGTH} to ${MAX_ADDRESS_LENGTH} letters`,
+          ]}
         ></InputField>
 
         <RadioButtonsGroup
@@ -132,6 +189,7 @@ const Register = () => {
             { label: 'male', value: true },
             { label: 'female', value: false },
           ]}
+          defValue={student.gender ?? true}
           radioName={'gender'}
           radioLabel={'Gender'}
           onSetRadio={handleChange}
